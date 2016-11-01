@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.izhuan365.com/schema/zbus"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:beans="http://www.springframework.org/schema/beans"
+            xmlns:tool="http://www.springframework.org/schema/tool"
+            targetNamespace="http://www.izhuan365.com/schema/zbus"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+
+    <xsd:import namespace="http://www.springframework.org/schema/tool"/>
+
+
+    <xsd:attributeGroup name="subscribeBeanAttributes">
+        <xsd:attribute name="broker" type="xsd:string" use="required"/>
+        <xsd:attribute name="mq" type="xsd:string" use="required"/>
+        <xsd:attribute name="topic" type="xsd:string" use="required"/>
+        <xsd:attribute name="class" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation source="java:java.lang.Class"><![CDATA[
+                The fully qualified name of the bean's class, except if it serves only
+	as a parent definition for child bean definitions.]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="handler" type="xsd:string">
+            <xsd:annotation>
+                <xsd:appinfo>
+                    <tool:annotation kind="ref">
+                        <tool:expected-type type="java:com.jingcai.apps.zbus.spring.mq.Handler"/>
+                    </tool:annotation>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:attributeGroup>
+
+    <xsd:element name="subscribe">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attributeGroup ref="subscribeBeanAttributes"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="publish">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="broker" type="xsd:string" use="required"/>
+                    <xsd:attribute name="mq" type="xsd:string" use="required"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="produce">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="broker" type="xsd:string" use="required"/>
+                    <xsd:attribute name="mq" type="xsd:string" use="required"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="consume">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="broker" type="xsd:string" use="required"/>
+                    <xsd:attribute name="mq" type="xsd:string" use="required"/>
+                    <xsd:attribute name="enable" type="xsd:string" default="true"/>
+                    <xsd:attribute name="handler" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:appinfo>
+                                <tool:annotation kind="ref">
+                                    <tool:expected-type type="java:com.jingcai.apps.zbus.spring.mq.Handler"/>
+                                </tool:annotation>
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="broker">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="serverAddr" type="xsd:string" use="required"/>
+                    <xsd:attribute name="maxTotal" type="xsd:int" default="20" use="optional"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="interfaces">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:choice>
+                        <xsd:element ref="beans:bean"/>
+                        <xsd:element ref="beans:ref"/>
+                    </xsd:choice>
+                    <xsd:attribute name="mq" type="xsd:string" use="required"/>
+                    <xsd:attribute name="broker" type="xsd:string" use="required"/>
+                    <xsd:attribute name="consumerCount" type="xsd:int" use="optional" default="2"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+
+    <xsd:element name="reference">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="interface" type="xsd:string" use="required"/>
+                    <xsd:attribute name="broker" type="xsd:string" use="required"/>
+                    <xsd:attribute name="mq" type="xsd:string" use="required"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+<!--
+    <xsd:element name="application">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="address" type="xsd:string" use="required"/>
+                    <xsd:attribute name="clientid" type="xsd:string" use="optional"/>
+                    <xsd:attribute name="timeout" type="xsd:string" use="required"/>
+                    <xsd:attribute name="flag" type="xsd:string" use="required"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>-->
+</xsd:schema>
