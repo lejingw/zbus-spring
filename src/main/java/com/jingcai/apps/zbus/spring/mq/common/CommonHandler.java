@@ -47,10 +47,11 @@ public class CommonHandler implements Handler {
 		Object request = null;
 		try {
 			Class requestBodyCls = commonService.getRequestBeanClass();
-			if(String.class == requestBodyCls)
-				request = requestData.getContent();
+			String content = requestData.getContent();
+			if (String.class == requestBodyCls)
+				request = content;
 			else
-				request = jsonMapper.fromJson(requestData.getContent(), requestBodyCls);
+				request = jsonMapper.fromJson(content, requestBodyCls);
 		} catch (Exception e) {
 			logger.error("解析业务请求数据出错", e);
 			return;
@@ -72,7 +73,7 @@ public class CommonHandler implements Handler {
 		}
 	}
 
-	protected void finalClean(RequestData requestData, boolean result){
+	protected void finalClean(RequestData requestData, boolean result) {
 
 	}
 }
